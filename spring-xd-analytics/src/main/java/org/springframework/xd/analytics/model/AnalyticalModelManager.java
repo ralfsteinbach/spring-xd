@@ -25,10 +25,10 @@ import java.util.concurrent.Future;
 public interface AnalyticalModelManager<M extends AnalyticalModel>{
 
 	/**
-	 * @param id
-	 * @return the model with the given {@code id}.
+	 * @param name
+	 * @return the current model with the given {@code name}.
 	 */
-	M getModel(String id);
+	M getCurrentModel(String name);
 
 	/**
 	 * Triggers an update for the model with the given {@code name}.

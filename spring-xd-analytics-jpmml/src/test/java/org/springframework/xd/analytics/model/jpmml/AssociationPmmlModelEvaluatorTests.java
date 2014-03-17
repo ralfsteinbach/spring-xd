@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.xd.tuple.Tuple;
@@ -27,19 +28,24 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class AssociationJpmmlAnalyticalModelTests extends AbstractJpmmlAnalyticalModelTests {
+public class AssociationPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testEvaluateAssociationRules1shopping() throws Exception {
 
-		JpmmlAnalyticalModel model = useModel("association-rules-1-shopping.pmml.xml", null, Arrays.asList("Predicted_item"));
+		PmmlModelEvaluator modelEvaluator = getModelEvaluator("association-rules-1-shopping.pmml.xml", null, Arrays.asList("Predicted_item"));
 
-		Tuple output = model.evaluate(objectToTuple(new Object() {
+		Tuple output = modelEvaluator.evaluate(objectToTuple(new Object() {
 			Collection<String> item = Arrays.asList("Choclates");
 		}));
 
 		Collection<String> predicted = (Collection<String>)output.getValue("Predicted_item");
 		assertThat(predicted, hasItems("Pencil"));
+	}
+
+	@Override
+	protected PmmlModelTupleOutputMapper getPmmlModelTupleOutputMapper(List<String> outputFieldNames) {
+		return new AssociationPmmlModelTupleOutputMapper(outputFieldNames);
 	}
 }

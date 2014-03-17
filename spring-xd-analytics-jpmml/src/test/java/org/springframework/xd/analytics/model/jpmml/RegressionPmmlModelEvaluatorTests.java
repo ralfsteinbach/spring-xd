@@ -26,16 +26,16 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class RegressionJpmmlAnalyticalModelTests extends AbstractJpmmlAnalyticalModelTests {
+public class RegressionPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
 
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_add_rate_field_in_output() throws Exception {
 
-		JpmmlAnalyticalModel model = useModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015);
 
-		Tuple output = model.evaluate(input);
+		Tuple output = modelEvaluator.evaluate(input);
 
 		assertEquals(-1.367, output.getDouble("rate"), 0.0001);
 	}
@@ -43,11 +43,11 @@ public class RegressionJpmmlAnalyticalModelTests extends AbstractJpmmlAnalytical
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_replace_rate_field_in_output() throws Exception {
 
-		JpmmlAnalyticalModel model = useModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015, "rate", -1);
 
-		Tuple output = model.evaluate(input);
+		Tuple output = modelEvaluator.evaluate(input);
 
 		assertEquals(-1.367, output.getDouble("rate"), 0.0001);
 	}
@@ -55,11 +55,11 @@ public class RegressionJpmmlAnalyticalModelTests extends AbstractJpmmlAnalytical
 	@Test
 	public void testEvaluateAdvancedLinearRegression1Iris() throws Exception{
 
-		JpmmlAnalyticalModel model = useModel("simple-linear-regression-2-iris.pmml.xml", null, Arrays.asList("Petal.Width"));
+		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-2-iris.pmml.xml", null, Arrays.asList("Petal.Width"));
 
 		Tuple input = tuple().of("Petal.Length", 4.5);
 
-		Tuple output = model.evaluate(input);
+		Tuple output = modelEvaluator.evaluate(input);
 
 		assertEquals(1.5104, output.getDouble("Petal.Width"), 0.0001);
 	}

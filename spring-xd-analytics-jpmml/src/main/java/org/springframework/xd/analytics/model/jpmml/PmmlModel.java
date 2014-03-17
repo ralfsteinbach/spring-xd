@@ -13,17 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
+package org.springframework.xd.analytics.model.jpmml;
 
-import org.springframework.xd.tuple.Tuple;
+import org.dmg.pmml.Model;
+import org.dmg.pmml.PMML;
+import org.springframework.xd.analytics.model.AbstractAnalyticalModel;
 
 /**
+ * An {@link org.springframework.xd.analytics.model.AnalyticalModel} that is backed by a {@link PMML} model definition.
+ *
  * Author: Thomas Darimont
  */
-public class DefaultAnalyticalModelEvaluator<M extends AnalyticalModel> implements AnalyticalModelEvaluator<M>{
+public class PmmlModel extends AbstractAnalyticalModel{
 
-	@Override
-	public Tuple evaluate(M model, Tuple input) {
-		return model.evaluate(input);
+	private final PMML pmml;
+
+	public PmmlModel(PMML pmml){
+		this.pmml = pmml;
+	}
+
+	Model getDefaultModel() {
+		return this.pmml.getModels().get(0);
+	}
+
+	public PMML getPmml() {
+		return pmml;
 	}
 }

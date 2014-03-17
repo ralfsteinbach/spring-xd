@@ -15,8 +15,6 @@
  */
 package org.springframework.xd.analytics.model;
 
-import org.springframework.xd.tuple.Tuple;
-
 /**
  * Represents a parameterized algorithm to perform analytics, e.g. a logistic regression function for classification
  * or a linear regression function to predict a new value based on the given input {@line Tuple}.
@@ -42,12 +40,4 @@ public interface AnalyticalModel {
 	 * @return
 	 */
 	String getName();
-
-	/**
-	 * Return the result of the computation represented by this model.
-	 *
-	 * @param input must not be {@literal null}
-	 * @return a new {@link Tuple} instance that combines the values from the {@code input} with the results of the computation.
-	 */
-	Tuple evaluate(Tuple input);
 }

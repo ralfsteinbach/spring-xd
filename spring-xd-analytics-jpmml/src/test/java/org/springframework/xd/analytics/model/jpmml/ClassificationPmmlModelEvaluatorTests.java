@@ -27,14 +27,14 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class ClassificationJpmmlAnalyticalModelTests extends AbstractJpmmlAnalyticalModelTests {
+public class ClassificationPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
 
 	@Test
 	public void testEvaluateNaiveBayesClassification1Iris() throws Exception {
 
-		JpmmlAnalyticalModel model = useModel("naive-bayes-classification-1-iris.pmml.xml", null, Arrays.asList("Predicted_Species"));
+		PmmlModelEvaluator modelEvaluator = getModelEvaluator("naive-bayes-classification-1-iris.pmml.xml", null, Arrays.asList("Predicted_Species"));
 
-		Tuple output = model.evaluate(objectToTuple(new Object() {
+		Tuple output = modelEvaluator.evaluate(objectToTuple(new Object() {
 			@Value("Sepal.Length") double sepalLength = 6.4;
 			@Value("Sepal.Width") double sepalWidth = 3.2;
 			@Value("Petal.Length") double petalLength = 4.5;
@@ -43,7 +43,7 @@ public class ClassificationJpmmlAnalyticalModelTests extends AbstractJpmmlAnalyt
 
 		assertThat(output.getString("Predicted_Species"), is("versicolor"));
 
-		output = model.evaluate(objectToTuple(new Object() {
+		output = modelEvaluator.evaluate(objectToTuple(new Object() {
 			@Value("Sepal.Length") double sepalLength = 6.9;
 			@Value("Sepal.Width") double sepalWidth = 3.1;
 			@Value("Petal.Length") double petalLength = 5.4;

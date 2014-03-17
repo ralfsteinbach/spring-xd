@@ -35,19 +35,25 @@ import org.xml.sax.InputSource;
 /**
  * Author: Thomas Darimont
  */
-public abstract class AbstractJpmmlAnalyticalModelTests {
+public abstract class AbstractPmmlModelEvaluatorTests {
 
 	static final String ANALYTICS_MODELS_LOCATION = "analytics/models/";
 
 
-	protected JpmmlAnalyticalModel useModel(String modelName, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
+	protected PmmlModelEvaluator getModelEvaluator(String modelName, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
 
-		JpmmlAnalyticalModel model = new JpmmlAnalyticalModel(loadPmmlModel(modelName));
-		model.setInputFields(inputFieldNames);
-		model.setOutputFieldsNames(outputFieldNames);
-		model.init();
+		PmmlModelTupleInputMapper inputMapper = new PmmlModelTupleInputMapper(inputFieldNames);
+		PmmlModelTupleOutputMapper outputMapper = getPmmlModelTupleOutputMapper(outputFieldNames);
 
-		return model;
+		PmmlModel model = new PmmlModel(loadPmmlModel(modelName));
+
+		PmmlModelEvaluator evaluator = new PmmlModelEvaluator(model, inputMapper,outputMapper);
+
+		return evaluator;
+	}
+
+	protected PmmlModelTupleOutputMapper getPmmlModelTupleOutputMapper(List<String> outputFieldNames) {
+		return new PmmlModelTupleOutputMapper(outputFieldNames);
 	}
 
 	protected static PMML loadPmmlModel(String modelName) throws Exception {
