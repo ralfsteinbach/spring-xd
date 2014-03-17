@@ -15,14 +15,30 @@
  */
 package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
+import org.dmg.pmml.Model;
+import org.dmg.pmml.PMML;
+import org.springframework.xd.analytics.model.AbstractAnalyticalModelDescription;
 
 /**
+ * An {@link org.springframework.xd.analytics.model.AnalyticalModelDescription} that is backed by a {@link PMML} model definition.
+ *
  * Author: Thomas Darimont
  */
-public interface PmmlModelOutputMapper<O, I> {
+public class PmmlModelDescription extends AbstractAnalyticalModelDescription {
 
-	O mapOutput(PmmlModelDescription model, Map<FieldName, ? super Object> result, I input);
+	private final PMML pmml;
+
+	public PmmlModelDescription(String name, String id, PMML pmml){
+		setName(name);
+		setId(id);
+		this.pmml = pmml;
+	}
+
+	Model getDefaultModel() {
+		return this.pmml.getModels().get(0);
+	}
+
+	public PMML getPmml() {
+		return pmml;
+	}
 }

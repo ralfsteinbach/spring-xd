@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,15 +28,15 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class AssociationPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
+public class AssociationPmmlModelTests extends AbstractPmmlModelTests {
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testEvaluateAssociationRules1shopping() throws Exception {
 
-		PmmlModelEvaluator modelEvaluator = getModelEvaluator("association-rules-1-shopping.pmml.xml", null, Arrays.asList("Predicted_item"));
+		PmmlModel model = getModel("association-rules-1-shopping.pmml.xml", null, Arrays.asList("Predicted_item"));
 
-		Tuple output = modelEvaluator.evaluate(objectToTuple(new Object() {
+		Tuple output = model.evaluate(objectToTuple(new Object() {
 			Collection<String> item = Arrays.asList("Choclates");
 		}));
 

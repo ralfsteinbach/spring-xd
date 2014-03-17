@@ -13,28 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
+package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.concurrent.Future;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
 
 /**
- * Manages the lifecycle of an {@code AnalyticalModel}.
- *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModelManager<M extends AnalyticalModel>{
-
-	/**
-	 * @param name
-	 * @return the current model with the given {@code name}.
-	 */
-	M getCurrentModel(String name);
-
-	/**
-	 * Triggers an update for the model with the given {@code name}.
-	 *
-	 * @param name
-	 * @return a {@link Future} that will eventually hold the updated model instance.
-	 */
-	Future<M> requestModelUpdate(String name);
+@NoRepositoryBean
+public interface PmmlModelRepository extends Repository{
 }

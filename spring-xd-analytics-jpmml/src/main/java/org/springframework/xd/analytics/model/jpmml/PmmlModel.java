@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,58 @@
  */
 package org.springframework.xd.analytics.model.jpmml;
 
-import org.dmg.pmml.Model;
-import org.dmg.pmml.PMML;
-import org.springframework.xd.analytics.model.AbstractAnalyticalModel;
+import java.util.Map;
+
+import org.dmg.pmml.FieldName;
+import org.jpmml.evaluator.Evaluator;
+import org.jpmml.evaluator.ModelEvaluatorFactory;
+import org.jpmml.manager.PMMLManager;
+import org.springframework.xd.analytics.model.AnalyticalModel;
+import org.springframework.xd.tuple.Tuple;
 
 /**
- * An {@link org.springframework.xd.analytics.model.AnalyticalModel} that is backed by a {@link PMML} model definition.
- *
  * Author: Thomas Darimont
  */
-public class PmmlModel extends AbstractAnalyticalModel{
+public class PmmlModel implements AnalyticalModel<PmmlModelDescription> {
 
-	private final PMML pmml;
+	private final PmmlModelDescription modelDescription;
+	private final PmmlModelInputMapper<Tuple> inputMapper;
+	private final PmmlModelOutputMapper<Tuple, Tuple> outputMapper;
 
-	public PmmlModel(PMML pmml){
-		this.pmml = pmml;
+	private volatile Evaluator pmmlEvaluator;
+
+	public PmmlModel(PmmlModelDescription modelDescription, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper) {
+		this(modelDescription, inputMapper, outputMapper, null);
 	}
 
-	Model getDefaultModel() {
-		return this.pmml.getModels().get(0);
+	public PmmlModel(PmmlModelDescription modelDescription, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper, Evaluator pmmlEvaluator) {
+		this.modelDescription = modelDescription;
+		this.inputMapper = inputMapper == null ? new PmmlModelTupleInputMapper(null) : inputMapper;
+		this.outputMapper = outputMapper == null ? new PmmlModelTupleOutputMapper(null) : outputMapper;
+		this.pmmlEvaluator = pmmlEvaluator;
 	}
 
-	public PMML getPmml() {
-		return pmml;
+	public Tuple evaluate(Tuple input) {
+
+		Map<FieldName, Object> inputData = inputMapper.mapInput(modelDescription, input);
+
+		Map<FieldName, Object> outputData = (Map<FieldName, Object>) getPmmlEvaluator().evaluate(inputData);
+
+		Tuple output = outputMapper.mapOutput(modelDescription, outputData, input);
+
+		return output;
+	}
+
+	protected Evaluator getPmmlEvaluator() {
+
+		if(this.pmmlEvaluator == null){
+			this.pmmlEvaluator = (Evaluator) new PMMLManager(modelDescription.getPmml()).getModelManager(null, ModelEvaluatorFactory.getInstance());
+		}
+
+		return pmmlEvaluator;
+	}
+
+	public PmmlModelDescription getModelDescription() {
+		return modelDescription;
 	}
 }

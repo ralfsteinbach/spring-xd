@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,19 +35,18 @@ import org.xml.sax.InputSource;
 /**
  * Author: Thomas Darimont
  */
-public abstract class AbstractPmmlModelEvaluatorTests {
+public abstract class AbstractPmmlModelTests {
 
 	static final String ANALYTICS_MODELS_LOCATION = "analytics/models/";
 
 
-	protected PmmlModelEvaluator getModelEvaluator(String modelName, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
+	protected PmmlModel getModel(String modelName, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
 
 		PmmlModelTupleInputMapper inputMapper = new PmmlModelTupleInputMapper(inputFieldNames);
 		PmmlModelTupleOutputMapper outputMapper = getPmmlModelTupleOutputMapper(outputFieldNames);
+		PmmlModelDescription pmmlModelDescription = new PmmlModelDescription(modelName,"model-id-4711",loadPmmlModel(modelName));
 
-		PmmlModel model = new PmmlModel(loadPmmlModel(modelName));
-
-		PmmlModelEvaluator evaluator = new PmmlModelEvaluator(model, inputMapper,outputMapper);
+		PmmlModel evaluator = new PmmlModel(pmmlModelDescription, inputMapper,outputMapper);
 
 		return evaluator;
 	}

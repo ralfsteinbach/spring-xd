@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +26,16 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class RegressionPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
+public class RegressionPmmlModelTests extends AbstractPmmlModelTests {
 
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_add_rate_field_in_output() throws Exception {
 
-		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlModel model = getModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015);
 
-		Tuple output = modelEvaluator.evaluate(input);
+		Tuple output = model.evaluate(input);
 
 		assertEquals(-1.367, output.getDouble("rate"), 0.0001);
 	}
@@ -43,11 +43,11 @@ public class RegressionPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluato
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_replace_rate_field_in_output() throws Exception {
 
-		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlModel model = getModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015, "rate", -1);
 
-		Tuple output = modelEvaluator.evaluate(input);
+		Tuple output = model.evaluate(input);
 
 		assertEquals(-1.367, output.getDouble("rate"), 0.0001);
 	}
@@ -55,11 +55,11 @@ public class RegressionPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluato
 	@Test
 	public void testEvaluateAdvancedLinearRegression1Iris() throws Exception{
 
-		PmmlModelEvaluator modelEvaluator = getModelEvaluator("simple-linear-regression-2-iris.pmml.xml", null, Arrays.asList("Petal.Width"));
+		PmmlModel model = getModel("simple-linear-regression-2-iris.pmml.xml", null, Arrays.asList("Petal.Width"));
 
 		Tuple input = tuple().of("Petal.Length", 4.5);
 
-		Tuple output = modelEvaluator.evaluate(input);
+		Tuple output = model.evaluate(input);
 
 		assertEquals(1.5104, output.getDouble("Petal.Width"), 0.0001);
 	}

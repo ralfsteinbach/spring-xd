@@ -360,6 +360,8 @@ project('spring-xd-analytics-jpmml') {
     dependencies {
         compile project(":spring-xd-analytics")
         compile "org.jpmml:pmml-evaluator:$jpmmlEvaluatorVersion"
+
+        testCompile ("org.mockito:mockito-core:$mockitoVersion") { exclude group:'org.hamcrest' }
     }
 }
 

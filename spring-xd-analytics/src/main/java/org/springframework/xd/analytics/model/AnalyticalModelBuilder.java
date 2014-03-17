@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,15 @@ package org.springframework.xd.analytics.model;
  *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModelBuilder<M extends AnalyticalModel> {
+public interface AnalyticalModelBuilder<M extends AnalyticalModel<MD>, MD extends AnalyticalModelDescription> {
 
 	/**
-	 * Builds a new analytical model with the given {@code name}.
+	 * Builds a new {@link AnalyticalModel} with the given {@code name}.
 	 *
 	 * @param name must not be {@literal null}
 	 * @return a new potentially update model for the given {@code name}.
 	 */
 	M buildModel(String name);
+
+	M buildModel(MD analyticalModelDescription);
 }

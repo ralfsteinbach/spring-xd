@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,22 @@
  */
 package org.springframework.xd.analytics.model;
 
+import org.springframework.xd.tuple.Tuple;
+
 /**
- * Represents a parameterized algorithm to perform analytics, e.g. a logistic regression function for classification
- * or a linear regression function to predict a new value based on the given input {@line Tuple}.
- *
- * An {@code AnalyticalModel} has a {@code name} and an {@code id}.
- * The id represents the identity of a model and must be unique.
- *
- * An {@code AnalyticalModel} that evolves over time due to new data will always have the same {@code name}
- * but a new instance will have a new {@code id}.
+ * {@link AnalyticalModel}.
  *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModel {
+public interface AnalyticalModel<MD extends AnalyticalModelDescription> {
+
+	MD getModelDescription();
 
 	/**
-	 * The id of a model must be unique.
+	 * Evaluates the given {@code model} against the given {@code input}.
+	 *
+	 * @param input must not be {@literal null}
 	 * @return
 	 */
-	String getId();
-
-	/**
-	 * The name of a model must not be {@literal null}.
-	 * @return
-	 */
-	String getName();
+	Tuple evaluate(Tuple input);
 }

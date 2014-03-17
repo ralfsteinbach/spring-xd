@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
+package org.springframework.xd.analytics.model.jpmml;
 
-import org.springframework.xd.tuple.Tuple;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
 
 /**
- * Evaluates an {@link AnalyticalModel}.
- *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModelEvaluator{
+public class PmmlModelBuilderTests {
 
-	/**
-	 * Evaluates the given {@code model} against the given {@code input}.
-	 *
-	 * @param input must not be {@literal null}
-	 * @return
-	 */
-	Tuple evaluate(Tuple input);
+	@Test
+	public void buildModel(){
+
+		PmmlModelBuilder pmb = new PmmlModelBuilder();
+		PmmlModel model = pmb.buildModel("simple-linear-regression-3-iris-model.r");
+
+		assertThat(model,is(notNullValue()));
+	}
 }

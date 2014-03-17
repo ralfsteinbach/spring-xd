@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 the original author or authors.
+ * Copyright 2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class ClusteringPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluatorTests {
+public class ClusteringPmmlModelTests extends AbstractPmmlModelTests {
 
 	@Test
 	public void testEvaluateNaiveBayesClassification1Iris() throws Exception {
 
-		PmmlModelEvaluator modelEvaluator = getModelEvaluator("kmeans-clustering-1-iris.pmml.xml", null, Arrays.asList("predictedValue"));
+		PmmlModel model = getModel("kmeans-clustering-1-iris.pmml.xml", null, Arrays.asList("predictedValue"));
 
-		Tuple output = modelEvaluator.evaluate(objectToTuple(new Object() {
+		Tuple output = model.evaluate(objectToTuple(new Object() {
 			@Value("Sepal.Length") double sepalLength = 6.4;
 			@Value("Sepal.Width") double sepalWidth = 3.2;
 			@Value("Petal.Length") double petalLength = 4.5;
@@ -43,7 +43,7 @@ public class ClusteringPmmlModelEvaluatorTests extends AbstractPmmlModelEvaluato
 
 		assertThat(output.getString("predictedValue"), is("1")); //versicolor
 
-		output = modelEvaluator.evaluate(objectToTuple(new Object() {
+		output = model.evaluate(objectToTuple(new Object() {
 			@Value("Sepal.Length") double sepalLength = 6.9;
 			@Value("Sepal.Width") double sepalWidth = 3.1;
 			@Value("Petal.Length") double petalLength = 5.4;
