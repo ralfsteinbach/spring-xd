@@ -20,7 +20,7 @@ package org.springframework.xd.analytics.model;
  *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModelBuilder<M extends AnalyticalModel<MD>, MD extends AnalyticalModelDescription> {
+public interface AnalyticalModelBuilder<M extends AnalyticalModel<MD>, MD extends AnalyticalModelDefinition> {
 
 	/**
 	 * Builds a new {@link AnalyticalModel} with the given {@code name}.
@@ -30,5 +30,5 @@ public interface AnalyticalModelBuilder<M extends AnalyticalModel<MD>, MD extend
 	 */
 	M buildModel(String name);
 
-	M buildModel(MD analyticalModelDescription);
+	M buildModel(MD modelDefinition);
 }

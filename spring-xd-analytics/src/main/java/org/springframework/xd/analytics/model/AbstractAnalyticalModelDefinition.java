@@ -18,11 +18,13 @@ package org.springframework.xd.analytics.model;
 /**
  * Author: Thomas Darimont
  */
-public abstract class AbstractAnalyticalModelDescription implements AnalyticalModelDescription {
+public abstract class AbstractAnalyticalModelDefinition implements AnalyticalModelDefinition {
 
 	private String id;
 
 	private String name;
+
+	//TODO add support for versioning
 
 	public String getId() {
 		return id;

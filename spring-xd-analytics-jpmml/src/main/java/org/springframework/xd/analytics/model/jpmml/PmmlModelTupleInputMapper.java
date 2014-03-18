@@ -36,7 +36,7 @@ public class PmmlModelTupleInputMapper implements PmmlModelInputMapper<Tuple> {
 	}
 
 	@Override
-	public Map<FieldName, Object> mapInput(PmmlModelDescription model, Tuple input) {
+	public Map<FieldName, Object> mapInput(PmmlModelDefinition modelDefinition, Tuple input) {
 
 		Map<FieldName, Object> inputData = new HashMap<FieldName, Object>();
 		for (String fieldName : input.getFieldNames()) {

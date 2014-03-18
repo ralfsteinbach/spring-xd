@@ -32,9 +32,9 @@ public class AssociationPmmlModelTupleOutputMapper extends PmmlModelTupleOutputM
 	}
 
 	@Override
-	protected void enhanceResultIfNecessary(PmmlModelDescription model, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
+	protected void enhanceResultIfNecessary(PmmlModelDefinition modelDefinition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
 
-		Model pmmlModel = model.getDefaultModel();
+		Model pmmlModel = modelDefinition.getDefaultModel();
 
 		if(pmmlModel instanceof AssociationModel){
 			AssociationModel ass = (AssociationModel)pmmlModel;

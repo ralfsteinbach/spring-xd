@@ -17,18 +17,19 @@ package org.springframework.xd.analytics.model.jpmml;
 
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
-import org.springframework.xd.analytics.model.AbstractAnalyticalModelDescription;
+import org.springframework.xd.analytics.model.AbstractAnalyticalModelDefinition;
 
 /**
- * An {@link org.springframework.xd.analytics.model.AnalyticalModelDescription} that is backed by a {@link PMML} model definition.
+ * An {@link org.springframework.xd.analytics.model.AnalyticalModelDefinition} that is backed by a {@link PMML} model definition.
  *
  * Author: Thomas Darimont
  */
-public class PmmlModelDescription extends AbstractAnalyticalModelDescription {
+public class PmmlModelDefinition extends AbstractAnalyticalModelDefinition {
 
 	private final PMML pmml;
 
-	public PmmlModelDescription(String name, String id, PMML pmml){
+	public PmmlModelDefinition(String name, String id, PMML pmml){
+
 		setName(name);
 		setId(id);
 		this.pmml = pmml;

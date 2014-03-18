@@ -44,7 +44,7 @@ public abstract class AbstractPmmlModelTests {
 
 		PmmlModelTupleInputMapper inputMapper = new PmmlModelTupleInputMapper(inputFieldNames);
 		PmmlModelTupleOutputMapper outputMapper = getPmmlModelTupleOutputMapper(outputFieldNames);
-		PmmlModelDescription pmmlModelDescription = new PmmlModelDescription(modelName,"model-id-4711",loadPmmlModel(modelName));
+		PmmlModelDefinition pmmlModelDescription = new PmmlModelDefinition(modelName,"model-id-4711",loadPmmlModel(modelName));
 
 		PmmlModel evaluator = new PmmlModel(pmmlModelDescription, inputMapper,outputMapper);
 

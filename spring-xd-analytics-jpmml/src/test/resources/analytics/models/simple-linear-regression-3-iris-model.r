@@ -34,10 +34,11 @@ exportPmml <- function(model, modelName=NULL, externalId=NULL){
 
 # called from outside
 rebuildModel <- function(modelName=NULL, externalId=NULL){
-  dataSets = loadData()
-  model = buildModel(dataSets)
+  dataSet = loadData()
+  model = buildModel(dataSet)
   pmmlSource = exportPmml(model, modelName, externalId)
-  write(toString(pmmlSource),file=paste(Sys.getenv("TMPDIR"),"model.pmml.xml", sep=""),append=FALSE,)
+  modelOutputFile <- paste(Sys.getenv("TMPDIR"),"model.pmml.xml", sep="")
+  write(toString(pmmlSource),file=modelOutputFile,append=FALSE,)
 }
 
 # called from outside

@@ -18,11 +18,12 @@ package org.springframework.xd.analytics.model.jpmml;
 import java.util.Map;
 
 import org.dmg.pmml.FieldName;
+import org.springframework.xd.analytics.model.AnalyticalModelInputMapper;
 
 /**
  * Author: Thomas Darimont
  */
-public interface PmmlModelInputMapper<I> {
+public interface PmmlModelInputMapper<I> extends AnalyticalModelInputMapper<Map<FieldName, Object> ,PmmlModelDefinition,I>{
 
-	Map<FieldName, Object> mapInput(PmmlModelDescription model, I input);
+	Map<FieldName, Object> mapInput(PmmlModelDefinition modelDefinition, I input);
 }

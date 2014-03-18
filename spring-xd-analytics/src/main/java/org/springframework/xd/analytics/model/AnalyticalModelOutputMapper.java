@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticalModelOutputMapper;
+package org.springframework.xd.analytics.model;
 
 /**
  * Author: Thomas Darimont
  */
-public interface PmmlModelOutputMapper<O, I> extends AnalyticalModelOutputMapper<O,I,Map<FieldName, Object>, PmmlModelDefinition>{
+public interface AnalyticalModelOutputMapper<O, I, MO, MD extends AnalyticalModelDefinition> {
 
-	O mapOutput(PmmlModelDefinition modelDefinition, Map<FieldName, Object> result, I input);
+	/**
+	 * Maps the model-output {@code MO} to an appropriate output {@code O}.
+	 *
+	 * @param modelDefinition
+	 * @param output
+	 * @param input the output for this {@link AnalyticalModel}
+	 * @return
+	 */
+	O mapOutput(MD modelDefinition, MO output, I input);
 }

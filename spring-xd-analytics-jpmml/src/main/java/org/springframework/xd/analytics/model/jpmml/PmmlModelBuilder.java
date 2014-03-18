@@ -31,46 +31,48 @@ import org.xml.sax.InputSource;
 /**
  * Author: Thomas Darimont
  */
-public class PmmlModelBuilder implements AnalyticalModelBuilder<PmmlModel, PmmlModelDescription> {
+public class PmmlModelBuilder implements AnalyticalModelBuilder<PmmlModel, PmmlModelDefinition> {
 
 	private static final String ANALYTICS_MODELS_LOCATION = "analytics/models/";
+	public static final String REBUILD_MODEL = "rebuildModel";
 
 	@Override
 	public PmmlModel buildModel(String name) {
 
-		PmmlModelDescription modelDescription = buildModelDescription(name);
+		PmmlModelDefinition modelDefinition = buildModelDefinition(name);
 
-		return buildModel(modelDescription);
+		return buildModel(modelDefinition);
 	}
 
-	private PmmlModelDescription buildModelDescription(String name) {
+	private PmmlModelDefinition buildModelDefinition(String name) {
 
 		String modelId = UUID.randomUUID().toString();
 
 		PMML pmml = generatePmmlByExecutingRScriptWith(name, modelId);
 
-		return new PmmlModelDescription(name,modelId,pmml);
+		return new PmmlModelDefinition(name, modelId, pmml);
 	}
 
 	/**
-	 *
 	 * Dummy Implementation
 	 */
 	private PMML generatePmmlByExecutingRScriptWith(String name, String modelId) {
 
 		try {
-			ProcessBuilder pb = new ProcessBuilder("Rscript", new ClassPathResource(ANALYTICS_MODELS_LOCATION + name).getFile().getAbsolutePath(),"--args","rebuildModel",name, modelId);
+
+			ProcessBuilder pb = new ProcessBuilder("Rscript", new ClassPathResource(ANALYTICS_MODELS_LOCATION + name).getFile().getAbsolutePath(), REBUILD_MODEL, name, modelId);
 
 			int exit = pb.start().waitFor();
 
 			Scanner scanner = new Scanner(new File(System.getProperties().get("java.io.tmpdir") + "model.pmml.xml"));
 			StringBuilder sb = new StringBuilder();
-			while(scanner.hasNextLine()){
+			while (scanner.hasNextLine()) {
 				sb.append(scanner.nextLine());
 			}
 			scanner.close();
 
-			String pmmlSource = sb.toString().replace(".*(<PMML>.*</PMML>).*","$1");
+			String pmmlSource = sb.toString().replace(".*(<PMML>.*</PMML>).*", "$1");
+
 			SAXSource transformedSource = ImportFilter.apply(new InputSource(new StringReader(pmmlSource)));
 			PMML pmml = JAXBUtil.unmarshalPMML(transformedSource);
 
@@ -81,7 +83,7 @@ public class PmmlModelBuilder implements AnalyticalModelBuilder<PmmlModel, PmmlM
 	}
 
 	@Override
-	public PmmlModel buildModel(PmmlModelDescription modelDescription) {
-		return new PmmlModel(modelDescription,null,null);
+	public PmmlModel buildModel(PmmlModelDefinition modelDefinition) {
+		return new PmmlModel(modelDefinition, null, null);
 	}
 }

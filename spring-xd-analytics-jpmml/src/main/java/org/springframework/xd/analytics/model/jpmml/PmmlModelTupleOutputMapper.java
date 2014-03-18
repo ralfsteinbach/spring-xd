@@ -49,19 +49,19 @@ public class PmmlModelTupleOutputMapper implements PmmlModelOutputMapper<Tuple, 
 	}
 
 	@Override
-	public Tuple mapOutput(PmmlModelDescription model, Map<FieldName, ? super Object> result, Tuple input) {
+	public Tuple mapOutput(PmmlModelDefinition modelDefinition, Map<FieldName, Object> result, Tuple input) {
 
 		List<String> outputNames = new ArrayList(input.getFieldNames());
 		List<Object> outputValues = new ArrayList<Object>(input.getValues());
 
-		enhanceResultIfNecessary(model, outputFields, result);
+		enhanceResultIfNecessary(modelDefinition, outputFields, result);
 
 		addEntriesFromResult(result, outputNames, outputValues);
 
 		return TupleBuilder.tuple().ofNamesAndValues(outputNames, outputValues);
 	}
 
-	protected void enhanceResultIfNecessary(PmmlModelDescription model, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
+	protected void enhanceResultIfNecessary(PmmlModelDefinition modelDefinition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
 		//noop
 	}
 

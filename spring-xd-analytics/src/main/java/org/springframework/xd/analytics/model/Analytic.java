@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model.jpmml;
+package org.springframework.xd.analytics.model;
 
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticalModelOutputMapper;
+import org.springframework.xd.tuple.Tuple;
 
 /**
+ * Analytical logic that can be used within a stream processing pipeline.
+ *
  * Author: Thomas Darimont
  */
-public interface PmmlModelOutputMapper<O, I> extends AnalyticalModelOutputMapper<O,I,Map<FieldName, Object>, PmmlModelDefinition>{
+public interface Analytic {
 
-	O mapOutput(PmmlModelDefinition modelDefinition, Map<FieldName, Object> result, I input);
+	/**
+	 * Evaluates the encoded {@code Analytic} against the given {@code input}.
+	 *
+	 * @param input must not be {@literal null}
+	 * @return
+	 */
+	Tuple evaluate(Tuple input);
 }

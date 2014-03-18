@@ -27,20 +27,21 @@ import org.springframework.xd.tuple.Tuple;
 /**
  * Author: Thomas Darimont
  */
-public class PmmlModel implements AnalyticalModel<PmmlModelDescription> {
+public class PmmlModel implements AnalyticalModel<PmmlModelDefinition> {
 
-	private final PmmlModelDescription modelDescription;
+	private final PmmlModelDefinition modelDefinition;
 	private final PmmlModelInputMapper<Tuple> inputMapper;
 	private final PmmlModelOutputMapper<Tuple, Tuple> outputMapper;
 
 	private volatile Evaluator pmmlEvaluator;
 
-	public PmmlModel(PmmlModelDescription modelDescription, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper) {
-		this(modelDescription, inputMapper, outputMapper, null);
+	public PmmlModel(PmmlModelDefinition modelDefinition, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper) {
+		this(modelDefinition, inputMapper, outputMapper, null);
 	}
 
-	public PmmlModel(PmmlModelDescription modelDescription, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper, Evaluator pmmlEvaluator) {
-		this.modelDescription = modelDescription;
+	public PmmlModel(PmmlModelDefinition modelDefinition, PmmlModelInputMapper<Tuple> inputMapper, PmmlModelOutputMapper<Tuple, Tuple> outputMapper, Evaluator pmmlEvaluator) {
+
+		this.modelDefinition = modelDefinition;
 		this.inputMapper = inputMapper == null ? new PmmlModelTupleInputMapper(null) : inputMapper;
 		this.outputMapper = outputMapper == null ? new PmmlModelTupleOutputMapper(null) : outputMapper;
 		this.pmmlEvaluator = pmmlEvaluator;
@@ -48,11 +49,10 @@ public class PmmlModel implements AnalyticalModel<PmmlModelDescription> {
 
 	public Tuple evaluate(Tuple input) {
 
-		Map<FieldName, Object> inputData = inputMapper.mapInput(modelDescription, input);
-
+		Map<FieldName, Object> inputData = inputMapper.mapInput(modelDefinition, input);
 		Map<FieldName, Object> outputData = (Map<FieldName, Object>) getPmmlEvaluator().evaluate(inputData);
 
-		Tuple output = outputMapper.mapOutput(modelDescription, outputData, input);
+		Tuple output = outputMapper.mapOutput(modelDefinition, outputData, input);
 
 		return output;
 	}
@@ -60,13 +60,13 @@ public class PmmlModel implements AnalyticalModel<PmmlModelDescription> {
 	protected Evaluator getPmmlEvaluator() {
 
 		if(this.pmmlEvaluator == null){
-			this.pmmlEvaluator = (Evaluator) new PMMLManager(modelDescription.getPmml()).getModelManager(null, ModelEvaluatorFactory.getInstance());
+			this.pmmlEvaluator = (Evaluator) new PMMLManager(modelDefinition.getPmml()).getModelManager(null, ModelEvaluatorFactory.getInstance());
 		}
 
 		return pmmlEvaluator;
 	}
 
-	public PmmlModelDescription getModelDescription() {
-		return modelDescription;
+	public PmmlModelDefinition getModelDefinition() {
+		return modelDefinition;
 	}
 }

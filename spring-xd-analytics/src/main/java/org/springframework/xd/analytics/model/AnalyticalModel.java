@@ -15,22 +15,12 @@
  */
 package org.springframework.xd.analytics.model;
 
-import org.springframework.xd.tuple.Tuple;
-
 /**
  * {@link AnalyticalModel}.
  *
  * Author: Thomas Darimont
  */
-public interface AnalyticalModel<MD extends AnalyticalModelDescription> {
+public interface AnalyticalModel<MD extends AnalyticalModelDefinition> extends Analytic {
 
-	MD getModelDescription();
-
-	/**
-	 * Evaluates the given {@code model} against the given {@code input}.
-	 *
-	 * @param input must not be {@literal null}
-	 * @return
-	 */
-	Tuple evaluate(Tuple input);
+	MD getModelDefinition();
 }
