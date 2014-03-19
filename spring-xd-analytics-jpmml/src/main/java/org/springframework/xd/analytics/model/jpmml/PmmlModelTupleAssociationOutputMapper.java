@@ -23,27 +23,37 @@ import org.dmg.pmml.*;
 import org.jpmml.evaluator.Association;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public class AssociationPmmlModelTupleOutputMapper extends PmmlModelTupleOutputMapper {
+public class PmmlModelTupleAssociationOutputMapper extends PmmlModelTupleOutputMapper {
 
-	public AssociationPmmlModelTupleOutputMapper(List<String> outputFieldsNames) {
+	/**
+	 * Creates a new {@link PmmlModelTupleAssociationOutputMapper}.
+	 *
+	 * @param outputFieldsNames
+	 */
+	public PmmlModelTupleAssociationOutputMapper(List<String> outputFieldsNames) {
 		super(outputFieldsNames);
 	}
 
+	/**
+	 * @param definition
+	 * @param outputFields
+	 * @param result
+	 */
 	@Override
-	protected void enhanceResultIfNecessary(PmmlModelDefinition modelDefinition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
+	protected void enhanceResultIfNecessary(PmmlModelDefinition definition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
 
-		Model pmmlModel = modelDefinition.getDefaultModel();
+		Model pmmlModel = definition.getDefaultModel();
 
-		if(pmmlModel instanceof AssociationModel){
-			AssociationModel ass = (AssociationModel)pmmlModel;
+		if (pmmlModel instanceof AssociationModel) {
+			AssociationModel ass = (AssociationModel) pmmlModel;
 
-			Association assoc = (Association)result.get(null);
+			Association assoc = (Association) result.get(null);
 
 			List<String> itemIds = new ArrayList<String>();
 			String itemSetId = assoc.getAssociationRules().get(0).getConsequent();
-			for(ItemRef itemRef : assoc.getItemsetRegistry().get(itemSetId).getItemRefs()){
+			for (ItemRef itemRef : assoc.getItemsetRegistry().get(itemSetId).getItemRefs()) {
 
 				Item item = assoc.getItemRegistry().get(itemRef.getItemRef());
 				itemIds.add(item.getValue());

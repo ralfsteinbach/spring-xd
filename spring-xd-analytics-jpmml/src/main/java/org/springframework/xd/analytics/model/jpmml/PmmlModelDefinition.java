@@ -17,28 +17,46 @@ package org.springframework.xd.analytics.model.jpmml;
 
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
-import org.springframework.xd.analytics.model.AbstractAnalyticalModelDefinition;
+import org.springframework.util.Assert;
+import org.springframework.xd.analytics.model.DefaultAnalyticModelDefinition;
 
 /**
- * An {@link org.springframework.xd.analytics.model.AnalyticalModelDefinition} that is backed by a {@link PMML} model definition.
+ * An {@link org.springframework.xd.analytics.model.AnalyticModelDefinition} that is backed by a {@link PMML} model definition.
  *
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public class PmmlModelDefinition extends AbstractAnalyticalModelDefinition {
+public class PmmlModelDefinition extends DefaultAnalyticModelDefinition {
 
 	private final PMML pmml;
 
-	public PmmlModelDefinition(String name, String id, PMML pmml){
+	/**
+	 * Creates a new {@link PmmlModelDefinition}.
+	 *
+	 * @param name
+	 * @param id
+	 * @param pmml
+	 */
+	public PmmlModelDefinition(String name, String id, PMML pmml) {
+		super(name, id);
 
-		setName(name);
-		setId(id);
+		Assert.notNull(pmml, "pmml");
+
 		this.pmml = pmml;
 	}
 
+	/**
+	 * Returns the default {@link Model} of the wrapped {@link PMML} object.
+	 * According to the PMML specification, this is the first {@code Model} in the {@code PMML} structure.
+	 *
+	 * @return
+	 */
 	Model getDefaultModel() {
 		return this.pmml.getModels().get(0);
 	}
 
+	/**
+	 * @return
+	 */
 	public PMML getPmml() {
 		return pmml;
 	}

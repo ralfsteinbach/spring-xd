@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticModelInputMapper;
+package org.springframework.xd.analytics.model;
 
 /**
  * @author Thomas Darimont
  */
-public interface PmmlModelInputMapper<I> extends AnalyticModelInputMapper<Map<FieldName, Object>, PmmlModelDefinition, I> {
+public interface AnalyticModelOutputMapper<O, I, MO, MD extends AnalyticModelDefinition> {
 
 	/**
-	 * @param definition
-	 * @param input
+	 * Maps the model-output {@code MO} to an appropriate output {@code O}.
+	 *
+	 * @param modelDefinition the {@link AnalyticModelDefinition} that can be used to retrieve mapping information.
+	 * @param output the raw unmapped model output.
+	 * @param input the input for this {@link AnalyticModel} that could be used to build the model {@code O}.
 	 * @return
 	 */
-	Map<FieldName, Object> mapInput(PmmlModelDefinition definition, I input);
+	O mapOutput(MD modelDefinition, MO output, I input);
 }

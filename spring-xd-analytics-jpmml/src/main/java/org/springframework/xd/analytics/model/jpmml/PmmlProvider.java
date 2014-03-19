@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package org.springframework.xd.analytics.model;
+package org.springframework.xd.analytics.model.jpmml;
+
+import org.dmg.pmml.PMML;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModelOutputMapper<O, I, MO, MD extends AnalyticalModelDefinition> {
+public interface PmmlProvider {
 
 	/**
-	 * Maps the model-output {@code MO} to an appropriate output {@code O}.
+	 * Returns an {@link PMML} instance form the given {@code name} and {@code modelId}.
 	 *
-	 * @param modelDefinition
-	 * @param output
-	 * @param input the output for this {@link AnalyticalModel}
+	 * @param name
+	 * @param modelId
 	 * @return
 	 */
-	O mapOutput(MD modelDefinition, MO output, I input);
+	PMML getPmml(String name, String modelId);
 }

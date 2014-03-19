@@ -13,28 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
 
-import java.util.concurrent.Future;
+package org.springframework.xd.analytics.rproject;
 
 /**
- * Manages the lifecycle of an {@code AnalyticalModel}.
- *
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModelManager<M extends AnalyticalModel>{
+public interface RprojectCallback {
 
-	/**
-	 * @param name
-	 * @return the current model with the given {@code name}.
-	 */
-	M getCurrentModel(String name);
-
-	/**
-	 * Triggers an update for the model with the given {@code name}.
-	 *
-	 * @param name
-	 * @return a {@link Future} that will eventually hold the updated model instance.
-	 */
-	Future<M> requestModelUpdate(String name);
+	<O> O executeInR(RprojectConnection connection);
 }

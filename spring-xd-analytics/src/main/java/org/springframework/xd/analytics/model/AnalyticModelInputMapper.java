@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.xd.analytics.model;
 
 /**
- * {@link AnalyticalModel}.
- *
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModel<MD extends AnalyticalModelDefinition> extends Analytic {
+public interface AnalyticModelInputMapper<MI, MD extends AnalyticModelDefinition, I> {
 
-	MD getModelDefinition();
+	/**
+	 * Maps the given input {@code I} into an appropriate model-input {@code MI}.
+	 *
+	 * @param definition
+	 * @param input
+	 * @return the input for this {@link AnalyticModel}
+	 */
+	MI mapInput(MD definition, I input);
 }

@@ -25,7 +25,7 @@ import org.springframework.xd.tuple.Tuple;
 import org.springframework.xd.tuple.TupleBuilder;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class PmmlModelTupleOutputMapper implements PmmlModelOutputMapper<Tuple, Tuple> {
 
@@ -33,6 +33,11 @@ public class PmmlModelTupleOutputMapper implements PmmlModelOutputMapper<Tuple, 
 
 	private final List<FieldName> outputFields;
 
+	/**
+	 * Creates a new {@link PmmlModelTupleOutputMapper}.
+	 *
+	 * @param outputFieldsNames
+	 */
 	public PmmlModelTupleOutputMapper(List<String> outputFieldsNames) {
 
 		if (outputFieldsNames == null) {
@@ -48,23 +53,39 @@ public class PmmlModelTupleOutputMapper implements PmmlModelOutputMapper<Tuple, 
 		}
 	}
 
+	/**
+	 * @param definition the {@link AnalyticModelDefinition} that can be used to retrieve mapping information.
+	 * @param result
+	 * @param input the input for this {@link AnalyticModel} that could be used to build the model {@code O}.
+	 * @return
+	 */
 	@Override
-	public Tuple mapOutput(PmmlModelDefinition modelDefinition, Map<FieldName, Object> result, Tuple input) {
+	public Tuple mapOutput(PmmlModelDefinition definition, Map<FieldName, Object> result, Tuple input) {
 
 		List<String> outputNames = new ArrayList(input.getFieldNames());
 		List<Object> outputValues = new ArrayList<Object>(input.getValues());
 
-		enhanceResultIfNecessary(modelDefinition, outputFields, result);
+		enhanceResultIfNecessary(definition, outputFields, result);
 
 		addEntriesFromResult(result, outputNames, outputValues);
 
 		return TupleBuilder.tuple().ofNamesAndValues(outputNames, outputValues);
 	}
 
-	protected void enhanceResultIfNecessary(PmmlModelDefinition modelDefinition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
+	/**
+	 * @param definition
+	 * @param outputFields
+	 * @param result
+	 */
+	protected void enhanceResultIfNecessary(PmmlModelDefinition definition, List<FieldName> outputFields, Map<FieldName, ? super Object> result) {
 		//noop
 	}
 
+	/**
+	 * @param result
+	 * @param outputNames
+	 * @param outputValues
+	 */
 	protected void addEntriesFromResult(Map<FieldName, ? super Object> result, List<String> outputNames, List<Object> outputValues) {
 
 		Collection<FieldName> outputFieldNames = outputFields == null ? result.keySet() : outputFields;

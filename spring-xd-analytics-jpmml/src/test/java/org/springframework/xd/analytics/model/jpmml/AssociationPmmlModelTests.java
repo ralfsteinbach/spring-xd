@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.springframework.xd.tuple.Tuple;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class AssociationPmmlModelTests extends AbstractPmmlModelTests {
 
@@ -34,18 +34,18 @@ public class AssociationPmmlModelTests extends AbstractPmmlModelTests {
 	@SuppressWarnings("unchecked")
 	public void testEvaluateAssociationRules1shopping() throws Exception {
 
-		PmmlModel model = getModel("association-rules-1-shopping.pmml.xml", null, Arrays.asList("Predicted_item"));
+		PmmlAnalyticModel<Tuple, Tuple> model = getAnalytic("association-rules-1-shopping", null, Arrays.asList("Predicted_item"));
 
 		Tuple output = model.evaluate(objectToTuple(new Object() {
 			Collection<String> item = Arrays.asList("Choclates");
 		}));
 
-		Collection<String> predicted = (Collection<String>)output.getValue("Predicted_item");
+		Collection<String> predicted = (Collection<String>) output.getValue("Predicted_item");
 		assertThat(predicted, hasItems("Pencil"));
 	}
 
 	@Override
 	protected PmmlModelTupleOutputMapper getPmmlModelTupleOutputMapper(List<String> outputFieldNames) {
-		return new AssociationPmmlModelTupleOutputMapper(outputFieldNames);
+		return new PmmlModelTupleAssociationOutputMapper(outputFieldNames);
 	}
 }

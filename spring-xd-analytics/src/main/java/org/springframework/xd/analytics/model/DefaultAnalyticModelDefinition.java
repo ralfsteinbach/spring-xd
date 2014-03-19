@@ -13,20 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.springframework.xd.analytics.model;
 
+import org.springframework.util.Assert;
+
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModelInputMapper<MI,MD extends AnalyticalModelDefinition,I> {
+public class DefaultAnalyticModelDefinition implements AnalyticModelDefinition {
+
+	private final String id;
+
+	private final String name;
 
 	/**
-	 * Maps the given input {@code I} into an appropriate model-input {@code MI}.
-	 *
-	 * @param modelDefinition
-	 * @param input
-	 * @return the input for this {@link AnalyticalModel}
+	 * @param id must not be {@literal null}.
+	 * @param name must not be {@literal null}.
 	 */
-	MI mapInput(MD modelDefinition, I input);
+	public DefaultAnalyticModelDefinition(String id, String name) {
+
+		Assert.notNull(id, "id");
+		Assert.notNull(name, "name");
+
+		this.id = id;
+		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
 }

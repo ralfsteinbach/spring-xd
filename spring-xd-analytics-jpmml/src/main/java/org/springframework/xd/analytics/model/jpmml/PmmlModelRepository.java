@@ -19,8 +19,9 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 @NoRepositoryBean
-public interface PmmlModelRepository extends Repository{
+public interface PmmlModelRepository extends Repository {
+
 }

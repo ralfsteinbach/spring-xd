@@ -18,26 +18,27 @@ package org.springframework.xd.analytics.model;
 /**
  * Represents the definition of a parameterized algorithm to perform analytics, e.g. a logistic regression function for classification
  * or a linear regression function to predict a new value based on a given input.
- *
- * An {@code AnalyticalModelDefinition} has a {@code name} and an {@code id}.
+ * An {@code AnalyticModelDefinition} has a {@code name} and an {@code id}.
  * The id represents the identity of a model and must be unique.
- *
- * An {@code AnalyticalModelDefinition} that evolves over time due to new data will always have the same {@code name}
+ * An {@code AnalyticModelDefinition} that evolves over time due to new data will always have the same {@code name}
  * but a new instance will have a new {@code id}.
- *
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModelDefinition {
+public interface AnalyticModelDefinition {
 
 	/**
 	 * The id of a model must be unique.
+	 *
 	 * @return
 	 */
 	String getId();
 
 	/**
 	 * The name of a model must not be {@literal null}.
+	 *
 	 * @return
 	 */
 	String getName();
+
+	//TODO add support for versioning
 }

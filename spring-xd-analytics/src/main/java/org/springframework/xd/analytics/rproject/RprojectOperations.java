@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticModelInputMapper;
+package org.springframework.xd.analytics.rproject;
 
 /**
  * @author Thomas Darimont
  */
-public interface PmmlModelInputMapper<I> extends AnalyticModelInputMapper<Map<FieldName, Object>, PmmlModelDefinition, I> {
+public interface RprojectOperations {
 
-	/**
-	 * @param definition
-	 * @param input
-	 * @return
-	 */
-	Map<FieldName, Object> mapInput(PmmlModelDefinition definition, I input);
+	String executeScript(String scriptName, RprojectCallback rprojectCallback);
 }

@@ -15,7 +15,7 @@
  */
 package org.springframework.xd.analytics.model.jpmml;
 
-import static org.springframework.xd.tuple.TupleBuilder.tuple;
+import static org.springframework.xd.tuple.TupleBuilder.*;
 
 import javax.xml.transform.sax.SAXSource;
 import java.lang.reflect.Field;
@@ -33,22 +33,21 @@ import org.springframework.xd.tuple.Tuple;
 import org.xml.sax.InputSource;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public abstract class AbstractPmmlModelTests {
 
 	static final String ANALYTICS_MODELS_LOCATION = "analytics/models/";
 
-
-	protected PmmlModel getModel(String modelName, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
+	protected PmmlAnalyticModel<Tuple, Tuple> getAnalytic(String name, Set<String> inputFieldNames, List<String> outputFieldNames) throws Exception {
 
 		PmmlModelTupleInputMapper inputMapper = new PmmlModelTupleInputMapper(inputFieldNames);
 		PmmlModelTupleOutputMapper outputMapper = getPmmlModelTupleOutputMapper(outputFieldNames);
-		PmmlModelDefinition pmmlModelDescription = new PmmlModelDefinition(modelName,"model-id-4711",loadPmmlModel(modelName));
+		PmmlModelDefinition pmmlModelDescription = new PmmlModelDefinition(name, "model-id-4711", loadPmmlModel(name));
 
-		PmmlModel evaluator = new PmmlModel(pmmlModelDescription, inputMapper,outputMapper);
+		PmmlAnalyticModel<Tuple, Tuple> analytic = new PmmlAnalyticModel<Tuple, Tuple>(pmmlModelDescription, inputMapper, outputMapper);
 
-		return evaluator;
+		return analytic;
 	}
 
 	protected PmmlModelTupleOutputMapper getPmmlModelTupleOutputMapper(List<String> outputFieldNames) {
@@ -57,7 +56,7 @@ public abstract class AbstractPmmlModelTests {
 
 	protected static PMML loadPmmlModel(String modelName) throws Exception {
 
-		InputSource pmmlStream = new InputSource(new ClassPathResource(ANALYTICS_MODELS_LOCATION + modelName).getInputStream());
+		InputSource pmmlStream = new InputSource(new ClassPathResource(ANALYTICS_MODELS_LOCATION + modelName + ".pmml.xml").getInputStream());
 		SAXSource transformedSource = ImportFilter.apply(pmmlStream);
 
 		return JAXBUtil.unmarshalPMML(transformedSource);
@@ -72,7 +71,7 @@ public abstract class AbstractPmmlModelTests {
 			@Override
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
-				if(field.isSynthetic()){
+				if (field.isSynthetic()) {
 					return;
 				}
 
@@ -84,6 +83,6 @@ public abstract class AbstractPmmlModelTests {
 			}
 		});
 
-		return tuple().ofNamesAndValues(fieldNames,fieldValues);
+		return tuple().ofNamesAndValues(fieldNames, fieldValues);
 	}
 }

@@ -15,18 +15,33 @@
  */
 package org.springframework.xd.analytics.model;
 
+import java.util.concurrent.Future;
+
 /**
- * Analytical logic.
- *
  * @author Thomas Darimont
  */
-public interface Analytic<I, O> {
+public interface AnalyticController<M extends Analytic<?, ?>> {
 
 	/**
-	 * Evaluates the encoded {@code Analytic} against the given {@code input}.
+	 * Returns the current {@link Analytic} with the given {@code name} or {@literal null} if not available.
 	 *
-	 * @param input must not be {@literal null}
+	 * @param name must not be {@iteral null}.
 	 * @return
 	 */
-	O evaluate(I input);
+	M getCurrent(String name);
+
+	/**
+	 * Triggers an update for the {@link Analytic} with the given {@code name}.
+	 *
+	 * @param name must not be {@iteral null}.
+	 * @return a {@link Future} that will eventually hold the updated {@code Analytic} instance.
+	 */
+	Future<M> updateAsync(String name);
+
+	/**
+	 * Returns an array of the support {@link Analytic} types.
+	 *
+	 * @return
+	 */
+	Class<? extends M>[] getSupportedAnalyticTypes();
 }

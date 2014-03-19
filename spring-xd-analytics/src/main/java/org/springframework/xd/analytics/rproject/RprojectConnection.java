@@ -13,32 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
+
+package org.springframework.xd.analytics.rproject;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public abstract class AbstractAnalyticalModelDefinition implements AnalyticalModelDefinition {
+public interface RprojectConnection {
 
-	private String id;
+	String eval(String command);
 
-	private String name;
-
-	//TODO add support for versioning
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	RprojectConnection forScript(String scriptName);
 }

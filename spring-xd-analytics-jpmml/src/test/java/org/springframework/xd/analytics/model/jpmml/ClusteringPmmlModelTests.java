@@ -25,14 +25,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.xd.tuple.Tuple;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class ClusteringPmmlModelTests extends AbstractPmmlModelTests {
 
 	@Test
 	public void testEvaluateNaiveBayesClassification1Iris() throws Exception {
 
-		PmmlModel model = getModel("kmeans-clustering-1-iris.pmml.xml", null, Arrays.asList("predictedValue"));
+		PmmlAnalyticModel<Tuple, Tuple> model = getAnalytic("kmeans-clustering-1-iris", null, Arrays.asList("predictedValue"));
 
 		Tuple output = model.evaluate(objectToTuple(new Object() {
 			@Value("Sepal.Length") double sepalLength = 6.4;

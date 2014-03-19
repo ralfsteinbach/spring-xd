@@ -16,21 +16,25 @@
 package org.springframework.xd.analytics.model.jpmml;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.xd.analytics.rproject.RprojectCliConnection;
+import org.springframework.xd.analytics.rproject.RprojectTemplate;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class PmmlModelBuilderTests {
 
 	@Test
-	public void buildModel(){
+	public void buildModel() throws Exception {
 
-		PmmlModelBuilder pmb = new PmmlModelBuilder();
-		PmmlModel model = pmb.buildModel("simple-linear-regression-3-iris-model.r");
+		PmmlProvider pp = new RprojectPmmlProvider(new RprojectTemplate(new RprojectCliConnection(new ClassPathResource("analytics/models").getFile().getAbsolutePath())));
+		PmmlAnalyticModelBuilder pmb = new PmmlAnalyticModelBuilder(pp, new PmmlModelTupleInputMapper(null), new PmmlModelTupleOutputMapper(null));
+		PmmlAnalyticModel model = pmb.buildModel("simple-linear-regression-4-iris-model.r");
 
-		assertThat(model,is(notNullValue()));
+		assertThat(model, is(notNullValue()));
 	}
 }

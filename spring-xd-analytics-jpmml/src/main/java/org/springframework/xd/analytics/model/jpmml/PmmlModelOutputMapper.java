@@ -18,12 +18,18 @@ package org.springframework.xd.analytics.model.jpmml;
 import java.util.Map;
 
 import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticalModelOutputMapper;
+import org.springframework.xd.analytics.model.AnalyticModelOutputMapper;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface PmmlModelOutputMapper<O, I> extends AnalyticalModelOutputMapper<O,I,Map<FieldName, Object>, PmmlModelDefinition>{
+public interface PmmlModelOutputMapper<O, I> extends AnalyticModelOutputMapper<O, I, Map<FieldName, Object>, PmmlModelDefinition> {
 
-	O mapOutput(PmmlModelDefinition modelDefinition, Map<FieldName, Object> result, I input);
+	/**
+	 * @param definition the {@link AnalyticModelDefinition} that can be used to retrieve mapping information.
+	 * @param result
+	 * @param input the input for this {@link AnalyticModel} that could be used to build the model {@code O}.
+	 * @return
+	 */
+	O mapOutput(PmmlModelDefinition definition, Map<FieldName, Object> result, I input);
 }

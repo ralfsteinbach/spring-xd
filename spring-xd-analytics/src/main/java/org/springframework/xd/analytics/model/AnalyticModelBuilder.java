@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model.jpmml;
-
-import java.util.Map;
-
-import org.dmg.pmml.FieldName;
-import org.springframework.xd.analytics.model.AnalyticModelInputMapper;
+package org.springframework.xd.analytics.model;
 
 /**
+ * Builds a new {@link AnalyticModel}.
  * @author Thomas Darimont
  */
-public interface PmmlModelInputMapper<I> extends AnalyticModelInputMapper<Map<FieldName, Object>, PmmlModelDefinition, I> {
+public interface AnalyticModelBuilder<M extends AnalyticModel<?, ?, MD>, MD extends AnalyticModelDefinition> {
 
 	/**
-	 * @param definition
-	 * @param input
-	 * @return
+	 * Builds a new {@link AnalyticModel} with the given {@code name}.
+	 *
+	 * @param name must not be {@literal null}
+	 * @return a new potentially update model for the given {@code name}.
 	 */
-	Map<FieldName, Object> mapInput(PmmlModelDefinition definition, I input);
+	M buildModel(String name);
 }

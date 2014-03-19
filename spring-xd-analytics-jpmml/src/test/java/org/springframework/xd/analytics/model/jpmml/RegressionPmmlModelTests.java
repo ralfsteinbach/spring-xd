@@ -24,14 +24,14 @@ import org.junit.Test;
 import org.springframework.xd.tuple.Tuple;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class RegressionPmmlModelTests extends AbstractPmmlModelTests {
 
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_add_rate_field_in_output() throws Exception {
 
-		PmmlModel model = getModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlAnalyticModel<Tuple, Tuple> model = getAnalytic("simple-linear-regression-1", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015);
 
@@ -43,7 +43,7 @@ public class RegressionPmmlModelTests extends AbstractPmmlModelTests {
 	@Test
 	public void testEvaluateSimpleLinearRegression1_should_replace_rate_field_in_output() throws Exception {
 
-		PmmlModel model = getModel("simple-linear-regression-1.pmml.xml", null, Arrays.asList("rate"));
+		PmmlAnalyticModel<Tuple, Tuple> model = getAnalytic("simple-linear-regression-1", null, Arrays.asList("rate"));
 
 		Tuple input = tuple().of("year", 2015, "rate", -1);
 
@@ -53,9 +53,9 @@ public class RegressionPmmlModelTests extends AbstractPmmlModelTests {
 	}
 
 	@Test
-	public void testEvaluateAdvancedLinearRegression1Iris() throws Exception{
+	public void testEvaluateAdvancedLinearRegression1Iris() throws Exception {
 
-		PmmlModel model = getModel("simple-linear-regression-2-iris.pmml.xml", null, Arrays.asList("Petal.Width"));
+		PmmlAnalyticModel<Tuple, Tuple> model = getAnalytic("simple-linear-regression-2-iris", null, Arrays.asList("Petal.Width"));
 
 		Tuple input = tuple().of("Petal.Length", 4.5);
 

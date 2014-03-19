@@ -1,4 +1,5 @@
-<PMML version="4.1" xmlns="http://www.dmg.org/PMML-4_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_1 http://www.dmg.org/v4-1/pmml-4-1.xsd">
+<PMML version="4.1" xmlns="http://www.dmg.org/PMML-4_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.dmg.org/PMML-4_1 http://www.dmg.org/v4-1/pmml-4-1.xsd">
     <Header copyright="Copyright (c) 2014 tom" description="KMeans cluster model">
         <Extension name="user" value="tom" extender="Rattle/PMML"/>
         <Application name="Rattle/PMML" version="1.4"/>
@@ -10,7 +11,8 @@
         <DataField name="Petal.Length" optype="continuous" dataType="double"/>
         <DataField name="Petal.Width" optype="continuous" dataType="double"/>
     </DataDictionary>
-    <ClusteringModel modelName="KMeans_Model" functionName="clustering" algorithmName="KMeans: Hartigan and Wong" modelClass="centerBased" numberOfClusters="3">
+    <ClusteringModel modelName="KMeans_Model" functionName="clustering" algorithmName="KMeans: Hartigan and Wong"
+                     modelClass="centerBased" numberOfClusters="3">
         <MiningSchema>
             <MiningField name="Sepal.Length"/>
             <MiningField name="Sepal.Width"/>

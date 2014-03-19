@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.xd.analytics.model;
+
+package org.springframework.xd.analytics.rproject;
 
 /**
- * Builds a new {@link AnalyticalModel}.
- *
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
-public interface AnalyticalModelBuilder<M extends AnalyticalModel<MD>, MD extends AnalyticalModelDefinition> {
+public class RprojectTemplate implements RprojectOperations {
 
-	/**
-	 * Builds a new {@link AnalyticalModel} with the given {@code name}.
-	 *
-	 * @param name must not be {@literal null}
-	 * @return a new potentially update model for the given {@code name}.
-	 */
-	M buildModel(String name);
+	private final RprojectConnection connection;
 
-	M buildModel(MD modelDefinition);
+	public RprojectTemplate(RprojectConnection connection) {
+		this.connection = connection;
+	}
+
+	@Override
+	public String executeScript(String scriptName, RprojectCallback rprojectCallback) {
+		return rprojectCallback.executeInR(connection.forScript(scriptName));
+	}
 }

@@ -15,28 +15,44 @@
  */
 package org.springframework.xd.analytics.model.jpmml;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.dmg.pmml.FieldName;
 import org.springframework.xd.tuple.Tuple;
 
 /**
- * Author: Thomas Darimont
+ * @author Thomas Darimont
  */
 public class PmmlModelTupleInputMapper implements PmmlModelInputMapper<Tuple> {
 
 	private final Set<String> inputFieldNames;
 
+	/**
+	 * Creates a new {@link PmmlModelTupleInputMapper}.
+	 *
+	 * @param inputFieldNames
+	 */
 	public PmmlModelTupleInputMapper(Set<String> inputFieldNames) {
 		this.inputFieldNames = inputFieldNames == null ? null : Collections.unmodifiableSet(inputFieldNames);
 	}
 
+	/**
+	 * @return
+	 */
 	public Set<String> getInputFields() {
 		return this.inputFieldNames;
 	}
 
+	/**
+	 * @param definition
+	 * @param input
+	 * @return
+	 */
 	@Override
-	public Map<FieldName, Object> mapInput(PmmlModelDefinition modelDefinition, Tuple input) {
+	public Map<FieldName, Object> mapInput(PmmlModelDefinition definition, Tuple input) {
 
 		Map<FieldName, Object> inputData = new HashMap<FieldName, Object>();
 		for (String fieldName : input.getFieldNames()) {
