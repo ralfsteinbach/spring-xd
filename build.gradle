@@ -583,6 +583,14 @@ project('spring-xd-extension-twitter') {
 	}
 }
 
+project('spring-xd-extension-csv') {
+	description = 'Spring XD CSV'
+	dependencies {
+		compile project(':spring-xd-tuple')
+		compile "org.springframework.integration:spring-integration-core:$springIntegrationVersion"
+	}
+}
+
 project('spring-xd-extension-splunk') {
 	description = 'Spring XD Splunk'
 	dependencies {
@@ -1148,6 +1156,12 @@ project('modules.processor.aggregator') {
 		// Adding redis for the message store, as it may become optional in DIRT itself
 		runtime	("org.springframework.integration:spring-integration-redis:$springIntegrationVersion") { exclude group: 'org.slf4j' }
 		runtime	("org.springframework.integration:spring-integration-jdbc:$springIntegrationVersion")
+	}
+}
+
+project('modules.processor.csv-splitter') {
+	dependencies {
+		runtime project(":spring-xd-extension-csv")
 	}
 }
 
